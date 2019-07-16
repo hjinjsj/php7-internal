@@ -1,7 +1,7 @@
 ### 3.4.1 类
 类是现实世界或思维世界中的实体在计算机中的反映，它将某些具有关联关系的数据以及这些数据上的操作封装在一起。在面向对象中类是对象的抽象，对象是类的具体实例。
 
-在PHP中类编译阶段的产物，而对象是运行时产生的，它们归属于不同阶段。
+在PHP中类是编译阶段的产物，而对象是运行时产生的，它们归属于不同阶段。
 
 PHP中我们这样定义一个类：
 ```php
@@ -416,7 +416,7 @@ void zend_compile_class_const_decl(zend_ast *ast)
     zend_class_entry *ce = CG(active_class_entry);
     uint32_t i;
 
-    for (i = 0; i < list->children; ++i) { //不清楚这个地方为什么要用list，试了几个例子这个节点都只有一个child，即for只循环一次
+    for (i = 0; i < list->children; ++i) { //const声明了多个常量，遍历编译每个子节点
         zend_ast *const_ast = list->child[i];
         zend_ast *name_ast = const_ast->child[0]; //常量名节点
         zend_ast *value_ast = const_ast->child[1];//常量值节点
@@ -446,7 +446,6 @@ void zend_compile_prop_decl(zend_ast *ast)
     zend_class_entry *ce = CG(active_class_entry);
     uint32_t i, children = list->children;
 
-    //也不清楚这里为啥用循环，测试的情况child只有一个
     for (i = 0; i < children; ++i) {
         zend_ast *prop_ast = list->child[i]; //这个节点类型为：ZEND_AST_PROP_ELEM
         zend_ast *name_ast = prop_ast->child[0]; //属性名节点
